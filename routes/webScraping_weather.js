@@ -1,13 +1,28 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var app = express();
+const express = require('express');
+const router = express.Router();
+const cherrio = require("cheerio");
+const axios = require("axios");
+
+const app = express();
+
+
+//Web Scraping!!
+const URL = "https://tenki.jp/forecast/9/46/8610/43216/";
 
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.sendFile('/workspace/01_WebScraping/public/weather.html');
+  axios(URL).then((res)=>{
+      const htmlParser = res.data;
+      let data = htmlParser;
+      // const $ = cherrio.load(htmlParser);
+
+      // $(".forecast-days-wrap")
+
+      //res.send(data);
+      res.send("hello");
+  }).catch((error) => console.log(error));
 });
 
 module.exports = router;
