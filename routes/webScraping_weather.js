@@ -22,7 +22,6 @@ router.get('/', function(req, res, next) {
         const today = $(this).find(".today-weather").prop('outerHTML');
         const tomorrow = $(this).find(".tomorrow-weather").prop('outerHTML');
         data.push({today, tomorrow});
-        console.log(today);
       });
 
       res.type("text/html");
