@@ -1,12 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
 </head>
 <body>
-    <h1>this is from public</h1>
-    <script src="./javascripts/scraping_weather.js"></script>
+  <h1>合志市の天気情報</h1>
+  <h4 id="init">データ取得中・・・</h4>
+  <pre id="result"></pre>
+  <table border="1">
+    <tr>
+        <th style="width: 500px;">今日の天気</th>
+        <th style="width: 500px;">明日の天気</th>
+    </tr>
+    <tr>
+        <td>
+            <div id="today-weather"></div>
+        </td>
+        <td>
+            <div id="tomorrow-weather"></div>
+        </td>
+    </tr>
+  </table>
+  
+  
+  <script>
+    async function get_weather(){
+        try {
+            //APIに接続
+            const response = await fetch('http://192.168.11.10:3000/api/webScraping/weather');
+            const html = await response.json();
+
+            const { today, tomorrow} = html[0];
+
+            //document.getElementById('result').textContent = data;
+            console.log(html);
+            document.getElementById("today-weather").innerHTML = today;
+            document.getElementById("tomorrow-weather").innerHTML = tomorrow;
+
+            document.getElementById("init").innerHTML = '';
+            } catch (err) {
+            console.error(err);
+        }
+    }
+
+
+    get_weather();
+  </script>
 </body>
 </html>

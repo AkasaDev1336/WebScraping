@@ -24,6 +24,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/users', usersRouter);
 // app.use('/weather', weatherRouter);
 
+/* CORSを許可 */
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+
 /******** API *********/
 app.use('/api/webScraping/weather',weatherRouter);
 

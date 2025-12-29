@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const cherrio = require("cheerio");
+const cheerio = require("cheerio");
 const axios = require("axios");
 
 const app = express();
@@ -13,15 +13,21 @@ const URL = "https://tenki.jp/forecast/9/46/8610/43216/";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  axios(URL).then((res)=>{
-      const htmlParser = res.data;
-      let data = htmlParser;
-      // const $ = cherrio.load(htmlParser);
+  let data = [];
+  axios(URL).then((html)=>{
+      const htmlParser = html.data;
+      const $ = cheerio.load(htmlParser);
 
-      // $(".forecast-days-wrap")
+      $(".section-wrap").each(function(){
+        const today = $(this).find(".today-weather").prop('outerHTML');
+        const tomorrow = $(this).find(".tomorrow-weather").prop('outerHTML');
+        data.push({today, tomorrow});
+        console.log(today);
+      });
 
-      //res.send(data);
-      res.send("hello");
+      res.type("text/html");
+      res.send(data);
+      //res.send("<h1>Hello world</h1>");
   }).catch((error) => console.log(error));
 });
 
